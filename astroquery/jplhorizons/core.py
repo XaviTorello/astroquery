@@ -589,6 +589,14 @@ class HorizonsClass(BaseQuery):
         else:
             request_payload['SKIP_DAYLT'] = 'NO'
 
+        # inject optional settings if provided
+        if optional_settings:
+            assert isinstance(
+                optional_settings, dict
+            ), "optional_settings should be a dict"
+            for key, value in optional_settings.items():
+                request_payload[key] = value
+
         self.query_type = 'ephemerides'
 
         # return request_payload if desired
@@ -599,13 +607,6 @@ class HorizonsClass(BaseQuery):
         if get_raw_response:
             self.return_raw = True
 
-        # inject optional settings if provided
-        if optional_settings:
-            assert isinstance(
-                optional_settings, dict
-            ), "optional_settings should be a dict"
-            for key, value in optional_settings.items():
-                request_payload[key] = value
 
         # query and parse
         response = self._request('GET', URL, params=request_payload,
