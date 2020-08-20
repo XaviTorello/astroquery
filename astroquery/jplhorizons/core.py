@@ -150,6 +150,7 @@ class HorizonsClass(BaseQuery):
                           closest_apparition=False, no_fragments=False,
                           quantities=conf.eph_quantities,
                           rts_flag=None,
+                          optional_settings=None,
                           get_query_payload=False,
                           get_raw_response=False, cache=True,
                           extra_precision=False):
@@ -451,6 +452,10 @@ class HorizonsClass(BaseQuery):
             `RTS only print mode
             <https://ssd.jpl.nasa.gov/?horizons_doc#rts>`_;
             default: disabled
+        optional_settings: dict, optional
+            key-value based dictionary to inject some additional optional settings
+            See `Optional observer-table settings" <https://ssd.jpl.nasa.gov/horizons.cgi?s_tset=1>`_;
+            default: empty optional setting
         get_query_payload : boolean, optional
             When set to `True` the method returns the HTTP request
             parameters as a dict, default: False
@@ -592,6 +597,14 @@ class HorizonsClass(BaseQuery):
 
         if rts_flag:
             request_payload['R_T_S_ONLY'] = rts_flag
+            
+        # inject optional settings if provided
+        if optional_settings:
+            assert isinstance(
+                optional_settings, dict
+            ), "optional_settings should be a dict"
+            for key, value in optional_settings.items():
+                request_payload[key] = value
 
         self.query_type = 'ephemerides'
 
@@ -602,6 +615,7 @@ class HorizonsClass(BaseQuery):
         # set return_raw flag, if raw response desired
         if get_raw_response:
             self.return_raw = True
+
 
         # query and parse
         response = self._request('GET', URL, params=request_payload,
