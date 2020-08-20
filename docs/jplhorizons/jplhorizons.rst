@@ -170,7 +170,7 @@ allows to reject targets with sky motion rates higher than provided
 (in units of arcsec/h), ``refraction`` accounts for refraction in the
 computation of the ephemerides (disabled by default), and
 ``refsystem`` defines the coordinate reference system used (J2000 by
-default).. For comets, the options ``closest_apparation`` and
+default). For comets, the options ``closest_apparation`` and
 ``no_fragments`` are available, which select the closest apparition in
 time and reject fragments, respectively. Note that these options
 should only be used for comets and will crash the query for other
@@ -178,7 +178,9 @@ object types. Extra precision in the queried properties can be
 requested using the ``extra_precision`` option. Furthermore,
 ``get_query_payload=True`` skips the query and only returns the query
 payload, whereas ``get_raw_response=True`` the raw query response
-instead of the astropy table returns.
+instead of the astropy table returns. To pass additional settings
+to the request use the ``optional_settings`` passing a key-value
+dictionary.
 
 :meth:`~astroquery.jplhorizons.HorizonsClass.ephemerides` queries by
 default all available quantities from the JPL Horizons servers. This
