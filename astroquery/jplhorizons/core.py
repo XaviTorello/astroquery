@@ -607,7 +607,6 @@ class HorizonsClass(BaseQuery):
         if get_raw_response:
             self.return_raw = True
 
-
         # query and parse
         response = self._request('GET', URL, params=request_payload,
                                  timeout=self.TIMEOUT, cache=cache)
